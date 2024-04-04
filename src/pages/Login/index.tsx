@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import { object, string } from 'yup';
 
 const validationSchema = object({
-  email: string().email('Invalid email').required('Email is required'),
+  username: string().required('Username is required'),
   password: string()
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/g,
@@ -16,7 +16,7 @@ const validationSchema = object({
 const Login = () => {
   const formik = useFormik({
     initialValues: {
-      email: '',
+      username: '',
       password: '',
     },
     validationSchema: validationSchema,
@@ -32,13 +32,13 @@ const Login = () => {
           buttonText="Login"
           fields={[
             {
-              type: 'email',
-              name: 'email',
-              label: 'Email',
-              value: formik.values.email,
-              placeholder: 'Enter your email',
-              touched: formik.touched.email,
-              error: formik.errors.email,
+              type: 'text',
+              name: 'username',
+              label: 'Uername',
+              value: formik.values.username,
+              placeholder: 'Enter your username',
+              touched: formik.touched.username,
+              error: formik.errors.username,
               onChange: formik.handleChange,
             },
             {
