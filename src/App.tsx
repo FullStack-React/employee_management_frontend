@@ -6,20 +6,28 @@ import {
 } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import NotFound from './pages/Error/NotFound';
-import Hiring_HR from './pages/Hiring_HR';
+import HiringHr from './pages/HiringHr';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import Onboarding from './pages/Onborading';
 import PersonalInfo from './pages/PersonalInfo';
-import Profiles_HR from './pages/Profiles_HR';
+import ProfilesHr from './pages/ProfilesHr';
 import Visa from './pages/Visa';
-import Visa_HR from './pages/Visa_HR';
+import VisaHr from './pages/VisaHr';
+
+const Layout = () => {
+  return (
+    <>
+      <Navigation />
+      <Outlet />
+    </>
+  );
+};
 
 const App: React.FC = () => {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen min-w-full">
       <Router>
-        <Navigation />
         <Routes>
           {/* <Route path="/" element={<Outlet />} /> */}
           {/* login page if not login, other pages will be inacccessible*/}
@@ -27,16 +35,18 @@ const App: React.FC = () => {
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
 
-          {/* employees pages */}
           <Route path="/register" element={<Registration />} />
-          <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="/personal-info" element={<PersonalInfo />} />
-          <Route path="/visa" element={<Visa />} />
+          {/* employees pages */}
+          <Route element={<Layout />}>
+            <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/personal-info" element={<PersonalInfo />} />
+            <Route path="/visa" element={<Visa />} />
 
-          {/* HR Pages */}
-          <Route path="/visa-hr" element={<Visa_HR />} />
-          <Route path="/hiring-hr" element={<Hiring_HR />} />
-          <Route path="/profiles-hr" element={<Profiles_HR />} />
+            {/* HR Pages */}
+            <Route path="/visa_hr" element={<VisaHr />} />
+            <Route path="/hiring_hr" element={<HiringHr />} />
+            <Route path="/profiles_hr" element={<ProfilesHr />} />
+          </Route>
 
           {/* Error Page */}
           <Route path="*" element={<NotFound />} />

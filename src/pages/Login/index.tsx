@@ -1,4 +1,3 @@
-import React from 'react';
 import Form from '@/components/Form';
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
@@ -25,7 +24,7 @@ const Login = () => {
     },
   });
   return (
-    <div className="flex-grow">
+    <div className="flex flex-grow bg-slate-200">
       <div className="w-2/5 flex flex-col m-auto">
         <Form
           title="Login"
@@ -57,7 +56,7 @@ const Login = () => {
         <div className="mt-2 flex justify-between">
           <p>
             Don't have an account?{' '}
-            <a className="text-blue-600 underline" href="/">
+            <a className="text-blue-600 underline" href="/register">
               Register here
             </a>
           </p>
