@@ -24,7 +24,7 @@ const Login = () => {
     },
   });
   return (
-    <div className="flex flex-grow bg-slate-200">
+    <div className="flex flex-grow">
       <div className="w-2/5 flex flex-col m-auto">
         <Form
           title="Login"

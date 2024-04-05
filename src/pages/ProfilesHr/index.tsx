@@ -2,6 +2,7 @@ import { Profile, columns } from './structure';
 import { DataTable } from '@/components/Table';
 import { sampleData } from './sampleData';
 import { useMemo } from 'react';
+import { Separator } from '@/components/ui/separator';
 
 // async function getData(): Promise<Profile[]> {
 //   // Fetch data from your API here.x
@@ -43,12 +44,11 @@ const ProfilesHr = () => {
     <div className="flex flex-col flex-grow bg-slate-200">
       {/* <div className='flex w-full'> */}
 
-      <div className="w-full">
-        <h1 className="text-2xl text-left m-5">
-          Employee Profiles for HR to Review
-        </h1>
-      </div>
       <div className="w-4/5 flex flex-col m-auto bg-white rounded-lg mb-20">
+        <header className="text-2xl text-left m-5">
+          Employee Profiles for HR to Review
+        </header>
+        <Separator />
         <DataTable columns={columns} data={data} filterValue="fullName" />
       </div>
     </div>

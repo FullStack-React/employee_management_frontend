@@ -56,7 +56,7 @@ const Navigation = () => {
   };
 
   return (
-    <div className="flex bg-[#6A7AAE] py-4 justify-around items-center">
+    <div className="sticky top-0 flex backdrop-filter backdrop-blur-md bg-opacity-30 bg-slate-200 py-4 justify-around items-center z-[100]">
       <div className="font-bold text-3xl ">Company A</div>
 
       <NavigationMenu>
@@ -82,7 +82,7 @@ const Navigation = () => {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger
-            className="text-white hover:text-black"
+            className="text-gray-500 hover:text-black"
             onClick={handleLogout}
           >
             Log Out

@@ -25,7 +25,7 @@ const Onboarding = () => {
   const [endDate, setEndDate] = useState<Date>();
 
   return (
-    <div className="flex flex-grow bg-slate-200">
+    <div className="flex flex-grow">
       <div className="flex flex-col w-4/5 mx-auto bg-white">
         <header className="text-3xl font-semibold my-5 mx-28">
           Onboarding Application

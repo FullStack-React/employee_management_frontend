@@ -26,7 +26,7 @@ const Layout = () => {
 
 const App: React.FC = () => {
   return (
-    <div className="flex flex-col min-h-screen min-w-full">
+    <div className="flex flex-col min-h-screen min-w-full bg-slate-200">
       <Router>
         <Routes>
           {/* <Route path="/" element={<Outlet />} /> */}
