@@ -42,8 +42,8 @@ const Onboarding = () => {
 
   return (
     <div className="flex flex-grow">
-      <div className="flex flex-col w-4/5 mx-auto bg-white">
-        <header className="text-3xl font-semibold my-5 mx-28">
+      <div className="flex flex-col w-4/5 mx-auto bg-white rounded-lg mb-2">
+        <header className="text-3xl font-semibold mt-16 mb-5 mx-28">
           Onboarding Application
         </header>
         <Separator className="my-5 w-4/5 self-center" />
