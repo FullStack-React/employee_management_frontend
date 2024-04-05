@@ -162,29 +162,31 @@ const Onboarding = () => {
               </div>
             )}
           </div>
-          <div className="flex my-5 justify-between items-end w-full">
-            <div className="flex flex-col w-2/5">
-              <Combobox
-                open={visaOpen}
-                value={visa}
-                buttonText="What is your work authorization?"
-                options={visaTypes}
-                onOpenChange={setVisaOpen}
-                onSelect={currentValue => {
-                  setVisa(currentValue === visa ? '' : currentValue);
-                  setVisaOpen(false);
-                }}
-              />
+          {citizen === 'no' && (
+            <div className="flex my-5 justify-between items-end w-full">
+              <div className="flex flex-col w-2/5">
+                <Combobox
+                  open={visaOpen}
+                  value={visa}
+                  buttonText="What is your work authorization?"
+                  options={visaTypes}
+                  onOpenChange={setVisaOpen}
+                  onSelect={currentValue => {
+                    setVisa(currentValue === visa ? '' : currentValue);
+                    setVisaOpen(false);
+                  }}
+                />
+              </div>
+              <div className="flex flex-col w-1/5">
+                <Label className="my-1 text-md font-semibold">Start Date</Label>
+                <DatePicker value={startDate} onSelect={setStartDate} />
+              </div>
+              <div className="flex flex-col w-1/5">
+                <Label className="my-1 text-md font-semibold">End Date</Label>
+                <DatePicker value={endDate} onSelect={setEndDate} />
+              </div>
             </div>
-            <div className="flex flex-col w-1/5">
-              <Label className="my-1 text-md font-semibold">Start Date</Label>
-              <DatePicker value={startDate} onSelect={setStartDate} />
-            </div>
-            <div className="flex flex-col w-1/5">
-              <Label className="my-1 text-md font-semibold">End Date</Label>
-              <DatePicker value={endDate} onSelect={setEndDate} />
-            </div>
-          </div>
+          )}
           {visa === 'other' && (
             <div className="flex my-5 justify-between w-full">
               <div className="flex flex-col w-1/2">
