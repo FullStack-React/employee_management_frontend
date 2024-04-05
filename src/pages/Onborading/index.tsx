@@ -33,6 +33,9 @@ const Onboarding = () => {
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
 
+  const [avatar, setAvatar] = useState<File | null>(null);
+  const [receipt, setReceipt] = useState<File | null>(null);
+
   const [emergencyContact, setEmergencyContact] = useState<EmergencyContact[]>([
     { firstName: '', lastName: '', email: '', phone: '', relationship: '' },
   ]);
@@ -50,7 +53,23 @@ const Onboarding = () => {
           </header>
           <div className="flex my-5 items-center justify-between w-full">
             <div className="flex flex-col w-1/12 items-center">
-              <Input type="file" id="avatar" className="hidden" />
+              <Input
+                onChange={e => {
+                  if (e.target.files) {
+                    if (e.target.files[0].size > 200000) {
+                      alert('File size exceeds 200KB');
+                    } else {
+                      setAvatar(e.target.files[0]);
+                    }
+                  } else {
+                    setAvatar(null);
+                  }
+                }}
+                type="file"
+                id="avatar"
+                accept="image/*"
+                className="hidden"
+              />
               <Label htmlFor="avatar" className="cursor-pointer">
                 <Avatar>
                   <AvatarImage
@@ -160,11 +179,11 @@ const Onboarding = () => {
               />
             </div>
             {citizen === 'yes' && (
-              <div className="ml-10 flex flex-col w-1/5">
+              <div className="ml-10 flex flex-col w-1/3">
                 <Combobox
                   open={identityOpen}
                   value={identity}
-                  buttonText="Citizen or Green Car"
+                  buttonText="Citizen or Green Card"
                   options={identities}
                   onOpenChange={setIdentityOpen}
                   onSelect={currentValue => {
@@ -213,7 +232,21 @@ const Onboarding = () => {
                 <Label className="my-1 text-md font-semibold">
                   OPT Receipt
                 </Label>
-                <Input type="file" />
+                <Input
+                  onChange={e => {
+                    if (e.target.files) {
+                      if (e.target.files[0].size > 2000000) {
+                        alert('File size exceeds 2MB');
+                      } else {
+                        setReceipt(e.target.files[0]);
+                      }
+                    } else {
+                      setReceipt(null);
+                    }
+                  }}
+                  type="file"
+                  accept="application/pdf"
+                />
               </div>
             </div>
           )}
@@ -371,8 +404,30 @@ const Onboarding = () => {
           >
             +add new
           </Button>
+          {(avatar || receipt) && (
+            <>
+              <Separator className="my-2 self-center" />
+              <header className="text-2xl font-semibold my-5">
+                Upload Documents
+              </header>
+              <ul className="flex flex-col w-1/2">
+                {avatar && (
+                  <li className="flex my-2 justify-between items-center">
+                    <p>Profile Picture</p>
+                    <p>{avatar.name}</p>
+                  </li>
+                )}
+                {receipt && (
+                  <li className="flex my-2 justify-between items-center">
+                    <p>OPT Receipt</p>
+                    <p>{receipt.name}</p>
+                  </li>
+                )}
+              </ul>
+            </>
+          )}
         </div>
-        <Button className="w-1/5 mx-auto mb-5">Submit</Button>
+        <Button className="w-1/5 mx-auto mt-3 mb-16">Submit</Button>
       </div>
     </div>
   );

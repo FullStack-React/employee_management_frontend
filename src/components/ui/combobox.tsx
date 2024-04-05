@@ -35,7 +35,7 @@ export const Combobox = (props: ComboboxProps) => {
           role="combobox"
           aria-expanded={props.open}
           className={cn(
-            'justify-between font-normal',
+            'justify-between font-normal overflow-hidden',
             !props.value && 'text-muted-foreground',
           )}
         >
