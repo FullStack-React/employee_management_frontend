@@ -8,6 +8,15 @@ import { DatePicker } from '@/components/ui/datepicker';
 import { Separator } from '@/components/ui/separator';
 import { genders, states, citizenOp, identities, visaTypes } from './options';
 
+interface EmergencyContact {
+  firstName: string;
+  middleName?: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  relationship: string;
+}
+
 const Onboarding = () => {
   const [stateOpen, setStateOpen] = useState(false);
   const [genderOpen, setGenderOpen] = useState(false);
@@ -23,6 +32,10 @@ const Onboarding = () => {
   const [date, setDate] = useState<Date>();
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
+
+  const [emergencyContact, setEmergencyContact] = useState<EmergencyContact[]>([
+    { firstName: '', lastName: '', email: '', phone: '', relationship: '' },
+  ]);
 
   return (
     <div className="flex flex-grow">
@@ -240,35 +253,122 @@ const Onboarding = () => {
           <header className="text-2xl font-semibold my-5">
             Emergency Contact
           </header>
-          <div className="flex my-5 justify-between w-full">
-            <div className="flex flex-col w-1/4">
-              <Label className="my-1 text-md font-semibold">First Name</Label>
-              <Input type="text" placeholder="Enter first name" />
-            </div>
-            <div className="flex flex-col w-1/4">
-              <Label className="my-1 text-md font-semibold">Middle Name</Label>
-              <Input type="text" placeholder="Enter middle name" />
-            </div>
-            <div className="flex flex-col w-1/4">
-              <Label className="my-1 text-md font-semibold">Last Name</Label>
-              <Input type="text" placeholder="Enter last name" />
-            </div>
-          </div>
-          <div className="flex my-5 justify-between w-full">
-            <div className="flex flex-col w-1/3">
-              <Label className="my-1 text-md font-semibold">Email</Label>
-              <Input type="text" placeholder="Enter email address" />
-            </div>
-            <div className="flex flex-col w-1/3">
-              <Label className="my-1 text-md font-semibold">Phone</Label>
-              <Input type="text" placeholder="Enter phone number" />
-            </div>
-            <div className="flex flex-col w-1/4">
-              <Label className="my-1 text-md font-semibold">relationship</Label>
-              <Input type="text" placeholder="Indicate relationship" />
-            </div>
-          </div>
-          <Button variant="link" className="text-blue-600 self-start p-0">
+          {emergencyContact.map((contact, index) => (
+            <>
+              <div
+                key={`${index}_1`}
+                className="flex my-5 justify-between w-full"
+              >
+                <div className="flex flex-col w-1/4">
+                  <Label className="my-1 text-md font-semibold">
+                    First Name
+                  </Label>
+                  <Input
+                    value={contact.firstName}
+                    onChange={e => {
+                      const newEmergencyContact = [...emergencyContact];
+                      newEmergencyContact[index].firstName = e.target.value;
+                      setEmergencyContact(newEmergencyContact);
+                    }}
+                    type="text"
+                    placeholder="Enter first name"
+                  />
+                </div>
+                <div className="flex flex-col w-1/4">
+                  <Label className="my-1 text-md font-semibold">
+                    Middle Name
+                  </Label>
+                  <Input
+                    value={contact.middleName}
+                    onChange={e => {
+                      const newEmergencyContact = [...emergencyContact];
+                      newEmergencyContact[index].middleName = e.target.value;
+                      setEmergencyContact(newEmergencyContact);
+                    }}
+                    type="text"
+                    placeholder="Enter middle name"
+                  />
+                </div>
+                <div className="flex flex-col w-1/4">
+                  <Label className="my-1 text-md font-semibold">
+                    Last Name
+                  </Label>
+                  <Input
+                    value={contact.lastName}
+                    onChange={e => {
+                      const newEmergencyContact = [...emergencyContact];
+                      newEmergencyContact[index].lastName = e.target.value;
+                      setEmergencyContact(newEmergencyContact);
+                    }}
+                    type="text"
+                    placeholder="Enter last name"
+                  />
+                </div>
+              </div>
+              <div
+                key={`${index}_2`}
+                className="flex my-5 justify-between w-full"
+              >
+                <div className="flex flex-col w-1/3">
+                  <Label className="my-1 text-md font-semibold">Email</Label>
+                  <Input
+                    value={contact.email}
+                    onChange={e => {
+                      const newEmergencyContact = [...emergencyContact];
+                      newEmergencyContact[index].email = e.target.value;
+                      setEmergencyContact(newEmergencyContact);
+                    }}
+                    type="text"
+                    placeholder="Enter email address"
+                  />
+                </div>
+                <div className="flex flex-col w-1/3">
+                  <Label className="my-1 text-md font-semibold">Phone</Label>
+                  <Input
+                    value={contact.phone}
+                    onChange={e => {
+                      const newEmergencyContact = [...emergencyContact];
+                      newEmergencyContact[index].phone = e.target.value;
+                      setEmergencyContact(newEmergencyContact);
+                    }}
+                    type="text"
+                    placeholder="Enter phone number"
+                  />
+                </div>
+                <div className="flex flex-col w-1/4">
+                  <Label className="my-1 text-md font-semibold">
+                    relationship
+                  </Label>
+                  <Input
+                    value={contact.relationship}
+                    onChange={e => {
+                      const newEmergencyContact = [...emergencyContact];
+                      newEmergencyContact[index].relationship = e.target.value;
+                      setEmergencyContact(newEmergencyContact);
+                    }}
+                    type="text"
+                    placeholder="Indicate relationship"
+                  />
+                </div>
+              </div>
+            </>
+          ))}
+          <Button
+            variant="link"
+            className="text-blue-600 self-start p-0"
+            onClick={() =>
+              setEmergencyContact([
+                ...emergencyContact,
+                {
+                  firstName: '',
+                  lastName: '',
+                  email: '',
+                  phone: '',
+                  relationship: '',
+                },
+              ])
+            }
+          >
             +add new
           </Button>
         </div>
