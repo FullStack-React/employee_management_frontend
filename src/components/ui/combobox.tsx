@@ -22,6 +22,7 @@ interface ComboboxProps {
   buttonText: string;
   options: { label: string; value: string }[];
   placeholder?: string;
+  disabled?: boolean;
   onOpenChange: (open: boolean) => void;
   onSelect: (value: string) => void;
 }
@@ -38,6 +39,7 @@ export const Combobox = (props: ComboboxProps) => {
             'justify-between font-normal overflow-hidden',
             !props.value && 'text-muted-foreground',
           )}
+          disabled={props.disabled}
         >
           {props.value
             ? props.options.find(option => option.value === props.value)?.label

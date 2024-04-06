@@ -39,7 +39,7 @@ const App: React.FC = () => {
           {/* employees pages */}
           <Route element={<Layout />}>
             <Route path="/onboarding" element={<Onboarding />} />
-            <Route path="/personal-info" element={<PersonalInfo />} />
+            <Route path="/personal_info" element={<PersonalInfo />} />
             <Route path="/visa" element={<Visa />} />
 
             {/* HR Pages */}

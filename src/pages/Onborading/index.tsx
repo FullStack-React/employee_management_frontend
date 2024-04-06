@@ -287,11 +287,8 @@ const Onboarding = () => {
             Emergency Contact
           </header>
           {emergencyContact.map((contact, index) => (
-            <>
-              <div
-                key={`${index}_1`}
-                className="flex my-5 justify-between w-full"
-              >
+            <div key={index}>
+              <div className="flex my-5 justify-between w-full">
                 <div className="flex flex-col w-1/4">
                   <Label className="my-1 text-md font-semibold">
                     First Name
@@ -338,10 +335,7 @@ const Onboarding = () => {
                   />
                 </div>
               </div>
-              <div
-                key={`${index}_2`}
-                className="flex my-5 justify-between w-full"
-              >
+              <div className="flex my-5 justify-between w-full">
                 <div className="flex flex-col w-1/3">
                   <Label className="my-1 text-md font-semibold">Email</Label>
                   <Input
@@ -384,7 +378,19 @@ const Onboarding = () => {
                   />
                 </div>
               </div>
-            </>
+              <Button
+                variant="link"
+                className="text-blue-600 self-start p-0"
+                onClick={() =>
+                  setEmergencyContact([
+                    ...emergencyContact.slice(0, index),
+                    ...emergencyContact.slice(index + 1),
+                  ])
+                }
+              >
+                -remove
+              </Button>
+            </div>
           ))}
           <Button
             variant="link"
