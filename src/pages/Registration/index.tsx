@@ -5,8 +5,8 @@ import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useLazyQuery, useMutation, gql } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
-import { toast } from '@/components/ui/use-toast';
 import { ToastAction } from '@/components/ui/toast';
+import { handleApolloError } from '@/utils/error';
 
 const validationSchema = object({
   username: string().required('Username is required'),
@@ -53,61 +53,11 @@ const Registration = () => {
     onCompleted: data => {
       navigate('/login');
     },
-    onError: error => {
-      if (error.networkError) {
-        toast({
-          variant: 'destructive',
-          title: 'Network Error',
-          description: error.networkError.message,
-          duration: 5000,
-          action: (
-            <ToastAction
-              altText="Try Again"
-              onClick={() => window.location.reload()}
-            >
-              Try Again
-            </ToastAction>
-          ),
-        });
-      } else if (error.graphQLErrors.length > 0) {
-        const errorMessages = error.graphQLErrors.reduce(
-          (acc: String[], error) => {
-            acc = [...acc, error.message];
-            return acc;
-          },
-          [],
-        );
-        toast({
-          variant: 'destructive',
-          title: 'Error',
-          description: errorMessages.join('\n'),
-          duration: 5000,
-          action: (
-            <ToastAction
-              altText="Try Again"
-              onClick={() => window.location.reload()}
-            >
-              Try Again
-            </ToastAction>
-          ),
-        });
-      } else {
-        toast({
-          variant: 'destructive',
-          title: 'Error',
-          description: 'An error occurred',
-          duration: 5000,
-          action: (
-            <ToastAction
-              altText="Try Again"
-              onClick={() => window.location.reload()}
-            >
-              Try Again
-            </ToastAction>
-          ),
-        });
-      }
-    },
+    onError: handleApolloError(
+      <ToastAction altText="Try Again" onClick={() => window.location.reload()}>
+        Try Again
+      </ToastAction>,
+    ),
   });
 
   const formik = useFormik({
@@ -119,9 +69,7 @@ const Registration = () => {
     },
     validationSchema: validationSchema,
     onSubmit: values => {
-      const { username, email, password, role } = values;
-      console.log(username, email, password, role);
-      register({ variables: { username, email, password } });
+      register({ variables: values });
     },
   });
 

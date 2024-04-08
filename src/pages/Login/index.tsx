@@ -1,5 +1,15 @@
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import Form from '@/components/Form';
+import {
+  auth,
+  selectLoginStatus,
+  selectOnboardingStatus,
+  selectRole,
+} from '@/features/auth/AuthSlice';
+import { handleApolloError } from '@/utils/error';
+import { useLazyQuery, gql } from '@apollo/client';
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import { object, string } from 'yup';
 
 const validationSchema = object({
@@ -12,7 +22,42 @@ const validationSchema = object({
     .required('Password is required'),
 });
 
+const LOGIN = gql`
+  query Login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+      id
+      token
+      username
+      email
+      role
+      status
+    }
+  }
+`;
+
 const Login = () => {
+  const loginStatus = useAppSelector(selectLoginStatus);
+  const onboardingStatus = useAppSelector(selectOnboardingStatus);
+  const role = useAppSelector(selectRole);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const [login, { loading }] = useLazyQuery(LOGIN, {
+    onCompleted: data => {
+      dispatch(auth(data.login));
+      if (onboardingStatus !== 'approved') {
+        navigate('/onboarding');
+      } else {
+        if (role === 'normal') {
+          navigate('/personal_info');
+        } else {
+          navigate('/profiles_hr');
+        }
+      }
+    },
+    onError: handleApolloError(),
+  });
+
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -21,14 +66,29 @@ const Login = () => {
     validationSchema: validationSchema,
     onSubmit: values => {
       console.log(JSON.stringify(values, null, 2));
+      login({ variables: values });
     },
   });
+
+  if (loginStatus) {
+    if (onboardingStatus !== 'approved') {
+      navigate('/onboarding');
+    } else {
+      if (role === 'normal') {
+        navigate('/personal_info');
+      } else {
+        navigate('/profiles_hr');
+      }
+    }
+  }
+
   return (
     <div className="flex flex-grow">
       <div className="w-2/5 flex flex-col m-auto">
         <Form
           title="Login"
           buttonText="Login"
+          loading={loading}
           fields={[
             {
               type: 'text',
