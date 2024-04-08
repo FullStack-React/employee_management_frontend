@@ -9,7 +9,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Textarea } from '@/components/ui/textarea';
 
 import Tooltip from '@/components/Tooltip/index';
 import { Link } from 'react-router-dom';
@@ -106,14 +105,11 @@ export const columns: ColumnDef<Employee>[] = [
           alert('Preview');
         };
 
-        if (
-          // value !== 'Unsubmitted'
-          value === 'Approved'
-        ) {
+        if (value !== 'Unsubmitted') {
           return (
             <div key={key} className="flex flex-col m-2 gap-2">
               <DropdownMenuSeparator />
-              {key} :
+              {key} : {value}
               <div className="flex gap-2">
                 <Button variant="outline" onClick={previewFile}>
                   <DropdownMenuItem>Preview</DropdownMenuItem>
@@ -138,13 +134,14 @@ export const columns: ColumnDef<Employee>[] = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              {/* {Object.values(visaData).every(value => value === 'Unsubmitted') ? (
-              <div className='p-2'>No Available Document for Preview</div>
-            ) : hasDocuments} */}
-
-              {!Object.values(visaData).includes('Approved') ? (
-                <div className="p-2">No Available Document for Preview</div>
+              <DropdownMenuLabel>Doc Status & Actions</DropdownMenuLabel>
+              {Object.values(visaData).every(
+                value => value === 'Unsubmitted',
+              ) ? (
+                <div className="p-2">
+                  <DropdownMenuSeparator />
+                  No Available Document for Preview
+                </div>
               ) : (
                 hasDocuments
               )}

@@ -88,7 +88,7 @@ export const sampleData: employee[] = [
     nextStep: 'OPT EAD: wait for HR approval',
     visa: {
       opt_receipt: 'Approved',
-      opt_ead: 'Pending',
+      opt_ead: 'Rejected',
       i983: 'Unsubmitted',
       i20: 'Unsubmitted',
     },
