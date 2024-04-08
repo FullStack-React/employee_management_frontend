@@ -1,9 +1,12 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
+import { ApolloProvider } from '@apollo/client';
 import App from './App';
 import { store } from './app/store';
+import { client } from './app/client';
 import './index.css';
+import { Toaster } from './components/ui/toaster';
 
 const container = document.getElementById('root');
 
@@ -12,9 +15,12 @@ if (container) {
 
   root.render(
     <React.StrictMode>
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <ApolloProvider client={client}>
+        <Provider store={store}>
+          <App />
+          <Toaster />
+        </Provider>
+      </ApolloProvider>
     </React.StrictMode>,
   );
 } else {

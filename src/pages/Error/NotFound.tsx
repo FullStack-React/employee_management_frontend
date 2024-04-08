@@ -22,7 +22,7 @@ const NotFound: React.FC = () => {
   return (
     <div className="flex flex-grow bg-slate-200">
       <div className="flex flex-col m-auto gap-8">
-        <div className="text-4xl text-center text-gsray-800">
+        <div className="text-4xl text-center text-gray-800">
           {' '}
           404 - Not Found
         </div>
