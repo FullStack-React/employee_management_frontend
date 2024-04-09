@@ -4,6 +4,7 @@ import type { ApolloError } from '@apollo/client';
 
 export const handleApolloError =
   (action?: ToastActionElement) => (error: ApolloError) => {
+    console.log('error', error);
     if (error.networkError) {
       toast({
         variant: 'destructive',
@@ -12,7 +13,7 @@ export const handleApolloError =
         duration: 5000,
         action: action,
       });
-    } else if (error.graphQLErrors.length > 0) {
+    } else if (error.graphQLErrors && error.graphQLErrors.length > 0) {
       const errorMessages = error.graphQLErrors.reduce(
         (acc: String[], error) => {
           acc = [...acc, error.message];

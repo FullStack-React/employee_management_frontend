@@ -23,13 +23,14 @@ export const DatePicker = (props: DatePickerProps) => {
         <Button
           variant={'outline'}
           className={cn(
+            'overflow-hidden',
             'justify-start text-left font-normal',
             !props.value && 'text-muted-foreground',
           )}
           disabled={props.disabled}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {props.value ? format(props.value, 'PPP') : <span>Pick a date</span>}
+          {props.value ? format(props.value, 'P') : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">

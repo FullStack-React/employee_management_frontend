@@ -1,7 +1,10 @@
 import type react from 'react';
 import { useEffect } from 'react';
 import { useAppSelector } from '@/app/hooks';
-import { selectLoginStatus } from '@/features/auth/AuthSlice';
+import {
+  selectLoginStatus,
+  selectOnboardingStatus,
+} from '@/features/auth/AuthSlice';
 import { useNavigate } from 'react-router-dom';
 
 interface ProtectedRouteProps {
@@ -10,13 +13,18 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: react.FC<ProtectedRouteProps> = props => {
   const loginStatus = useAppSelector(selectLoginStatus);
+  const onboardingStatus = useAppSelector(selectOnboardingStatus);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!loginStatus) {
       navigate('/login');
+    } else {
+      if (onboardingStatus !== 'approved') {
+        navigate('/onboarding');
+      }
     }
-  }, [loginStatus, navigate]);
+  }, [loginStatus, navigate, onboardingStatus]);
 
   return <>{props.element}</>;
 };
