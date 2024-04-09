@@ -14,6 +14,7 @@ import PersonalInfo from './pages/PersonalInfo';
 import ProfilesHr from './pages/ProfilesHr';
 import Visa from './pages/Visa';
 import VisaHr from './pages/VisaHr';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const Layout = () => {
   return (
@@ -38,7 +39,11 @@ const App: React.FC = () => {
           <Route path="/register/:token" element={<Registration />} />
           {/* employees pages */}
           <Route element={<Layout />}>
-            <Route path="/onboarding" element={<Onboarding />} />
+            <Route
+              path="/onboarding"
+              // element={<ProtectedRoute element={<Onboarding />} />}
+              element={<Onboarding />}
+            />
             <Route path="/personal_info" element={<PersonalInfo />} />
             <Route path="/visa" element={<Visa />} />
 

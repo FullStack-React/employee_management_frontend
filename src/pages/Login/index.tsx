@@ -9,6 +9,7 @@ import {
 import { handleApolloError } from '@/utils/error';
 import { useLazyQuery, gql } from '@apollo/client';
 import { useFormik } from 'formik';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { object, string } from 'yup';
 
@@ -45,15 +46,6 @@ const Login = () => {
   const [login, { loading }] = useLazyQuery(LOGIN, {
     onCompleted: data => {
       dispatch(auth(data.login));
-      if (onboardingStatus !== 'approved') {
-        navigate('/onboarding');
-      } else {
-        if (role === 'normal') {
-          navigate('/personal_info');
-        } else {
-          navigate('/profiles_hr');
-        }
-      }
     },
     onError: handleApolloError(),
   });
@@ -65,22 +57,23 @@ const Login = () => {
     },
     validationSchema: validationSchema,
     onSubmit: values => {
-      console.log(JSON.stringify(values, null, 2));
       login({ variables: values });
     },
   });
 
-  if (loginStatus) {
-    if (onboardingStatus !== 'approved') {
-      navigate('/onboarding');
-    } else {
-      if (role === 'normal') {
-        navigate('/personal_info');
+  useEffect(() => {
+    if (loginStatus) {
+      if (onboardingStatus !== 'approved') {
+        navigate('/onboarding');
       } else {
-        navigate('/profiles_hr');
+        if (role === 'normal') {
+          navigate('/personal_info');
+        } else {
+          navigate('/profiles_hr');
+        }
       }
     }
-  }
+  }, [loginStatus, onboardingStatus, role, navigate]);
 
   return (
     <div className="flex flex-grow">
