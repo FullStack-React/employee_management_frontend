@@ -32,8 +32,18 @@ const CHECK_TOKEN = gql`
 `;
 
 const REGISTER = gql`
-  mutation Register($username: String!, $email: String!, $password: String!) {
-    register(username: $username, email: $email, password: $password) {
+  mutation Register(
+    $token: String!
+    $username: String!
+    $email: String!
+    $password: String!
+  ) {
+    register(
+      token: $token
+      username: $username
+      email: $email
+      password: $password
+    ) {
       api
       type
       status
@@ -69,7 +79,7 @@ const Registration = () => {
     },
     validationSchema: validationSchema,
     onSubmit: values => {
-      register({ variables: values });
+      register({ variables: { token, ...values } });
     },
   });
 
