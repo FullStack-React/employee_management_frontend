@@ -12,6 +12,7 @@ import { ToastAction } from '@/components/ui/toast';
 import { handleApolloError } from '@/utils/error';
 import { useAppSelector } from '@/app/hooks';
 import { selectToken } from '@/features/auth/AuthSlice';
+import { toast } from '@/components/ui/use-toast';
 
 const CREATE_TOKEN = gql`
   mutation CreateToken($email: String!) {
@@ -45,7 +46,11 @@ const Token = () => {
   const [createToken, { loading: tokenSendLoading, error: emailAddressError }] =
     useMutation(CREATE_TOKEN, {
       onCompleted: () => {
-        alert('Token sent successfully');
+        toast({
+          title: 'Link',
+          description: 'Registration Link Sent Successfully',
+          duration: 5000,
+        });
       },
       onError: handleApolloError(
         <ToastAction
@@ -105,7 +110,7 @@ const Token = () => {
   return (
     <div className="w-full">
       <div>
-        <header className="text-2xl font-semibold text-left mx-5 mt-5">
+        <header className="md:text-2xl text-base font-semibold text-left mx-5 mt-5">
           Registration Token
         </header>
 
@@ -139,7 +144,7 @@ const Token = () => {
 
       <div className="mt-5">
         <div>
-          <header className="text-2xl font-semibold text-left m-5">
+          <header className="md:text-2xl text-base font-semibold text-left m-5">
             Token History
           </header>
         </div>

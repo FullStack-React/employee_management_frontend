@@ -14,7 +14,6 @@ const Visa = () => {
   const [data, setData] = useState(null);
   const [query, { loading }] = useLazyQuery(QUERY_VISA, {
     onCompleted: data => {
-      console.log(data);
       setData(data);
     },
     onError: handleApolloError(),

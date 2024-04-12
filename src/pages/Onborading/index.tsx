@@ -27,6 +27,7 @@ import { Loader2 } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { Textarea } from '@/components/ui/textarea';
 import { ToastAction } from '@/components/ui/toast';
+import { toast } from '@/components/ui/use-toast';
 
 const Onboarding: react.FC = () => {
   const token = useAppSelector(selectToken);
@@ -150,7 +151,11 @@ const Onboarding: react.FC = () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useMutation(FEEDBACK, {
       onCompleted: () => {
-        alert('Feedback Submitted Successfully');
+        toast({
+          title: 'Review',
+          description: 'Onboarding application review result sent successfully',
+          duration: 5000,
+        });
         window.close();
       },
       onError: handleApolloError(

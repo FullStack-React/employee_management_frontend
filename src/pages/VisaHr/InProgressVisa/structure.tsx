@@ -16,6 +16,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import { ToastAction } from '@/components/ui/toast';
+import { toast } from '@/components/ui/use-toast';
 import { handleApolloError } from '@/utils/error';
 import { useAppSelector } from '@/app/hooks';
 import { selectToken } from '@/features/auth/AuthSlice';
@@ -144,14 +145,18 @@ export const columns: ColumnDef<Employee>[] = [
         // eslint-disable-next-line react-hooks/rules-of-hooks
         useMutation(GIVE_FEEDBACK, {
           onCompleted: () => {
-            alert('Document Reviewed Successfully');
+            toast({
+              title: 'Document',
+              description: 'Document review result sent successfully',
+              duration: 5000,
+            });
           },
           onError: handleApolloError(
             <ToastAction
               altText="Try Again"
               onClick={() => window.location.reload()}
             >
-              Error giving feedback. Try again.
+              Error review. Try again.
             </ToastAction>,
           ),
         });
@@ -160,7 +165,11 @@ export const columns: ColumnDef<Employee>[] = [
         // eslint-disable-next-line react-hooks/rules-of-hooks
         useMutation(SEND_NOTIFICATION, {
           onCompleted: () => {
-            alert('Notification Sent Successfully');
+            toast({
+              title: 'Notification',
+              description: 'Notification sent successfully',
+              duration: 5000,
+            });
           },
           onError: handleApolloError(
             <ToastAction

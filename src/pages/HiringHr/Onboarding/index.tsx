@@ -65,7 +65,7 @@ const Onboarding = () => {
           Pending Applications
         </header>
 
-        <div className="h-80 overflow-scroll mx-20">
+        <div className="h-80 overflow-scroll md:mx-20 mx-2">
           <DataTable
             columns={columns}
             data={data}
@@ -80,7 +80,7 @@ const Onboarding = () => {
           Approved Applications
         </header>
 
-        <div className="h-80 overflow-scroll mx-20">
+        <div className="h-80 overflow-scroll md:mx-20 mx-2">
           <DataTable
             columns={columns}
             data={data}
@@ -95,7 +95,7 @@ const Onboarding = () => {
           Rejected Applications
         </header>
 
-        <div className="h-80 overflow-scroll mx-20">
+        <div className="h-80 overflow-scroll md:mx-20 mx-2">
           <DataTable
             columns={columns}
             data={data}

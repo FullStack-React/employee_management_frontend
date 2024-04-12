@@ -72,7 +72,7 @@ const AllVisa = () => {
   if (loading === 'pending') {
     return (
       <div className="flex flex-col items-center justify-center h-full">
-        <p className="text-black text-2xl font-bold">Loading...</p>
+        <p className="text-black md:text-2xl text-base font-bold">Loading...</p>
       </div>
     );
   }
