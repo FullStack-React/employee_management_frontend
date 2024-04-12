@@ -60,6 +60,7 @@ const InProgressVisa = () => {
         const filteredData = data.allVisa.filter((visa: Employee) => {
           return visa.i20.status !== 'approved';
         });
+
         setData(filteredData);
       }
     };

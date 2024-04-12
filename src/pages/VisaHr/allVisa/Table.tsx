@@ -70,8 +70,8 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex w-full justify-around">
-        <div className="flex items-center py-4 w-[45%]">
-          <div className="mr-4 text-gray-400">Search Employee Name: </div>
+        <div className="flex items-center py-4 w-[48%]">
+          <div className="mr-2 text-gray-400">Search Employee Name: </div>
           <Input
             placeholder="🔍Enter employee name to search..."
             value={fullNameValue}
@@ -79,8 +79,8 @@ export function DataTable<TData, TValue>({
             className="max-w-sm"
           />
         </div>
-        <div className="flex items-center py-4 w-[45%]">
-          <div className="mr-4 text-gray-400">Search Employee User Name: </div>
+        <div className="flex items-center py-4 w-[48%]">
+          <div className="mr-2 text-gray-400">Search Employee User Name: </div>
           <Input
             placeholder="🔍Enter username to search..."
             value={preferredNameValue}

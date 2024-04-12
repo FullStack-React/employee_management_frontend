@@ -58,7 +58,6 @@ const AllVisa = () => {
       if (token) {
         const { data } = await getVisas({ variables: { token } });
         setData(data.allVisa);
-        console.log(data.allVisa);
       }
     };
     fetchData();

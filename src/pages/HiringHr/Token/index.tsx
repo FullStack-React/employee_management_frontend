@@ -51,6 +51,8 @@ const Token = () => {
           description: 'Registration Link Sent Successfully',
           duration: 5000,
         });
+        setEmail('');
+        window.location.reload();
       },
       onError: handleApolloError(
         <ToastAction

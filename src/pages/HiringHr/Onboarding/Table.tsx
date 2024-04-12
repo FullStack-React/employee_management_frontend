@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex w-full justify-around">
-        <div className="flex items-center py-4 w-[60%] sticky">
+        <div className="flex items-center py-4 w-[80%] sticky">
           <div className="mr-4 text-gray-400">Search Employee Name: </div>
           <Input
             placeholder="🔍Enter employee name to search..."
