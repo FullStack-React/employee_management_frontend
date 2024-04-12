@@ -1,4 +1,3 @@
-//TODO: add role field
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
 import Form from '@/components/Form';
@@ -38,12 +37,14 @@ const REGISTER = gql`
     $username: String!
     $email: String!
     $password: String!
+    $role: String!
   ) {
     register(
       token: $token
       username: $username
       email: $email
       password: $password
+      role: $role
     ) {
       api
       type
