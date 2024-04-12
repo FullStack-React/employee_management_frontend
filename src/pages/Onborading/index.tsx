@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Combobox } from '@/components/ui/combobox';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { DatePicker } from '@/components/ui/datepicker';
 import { Separator } from '@/components/ui/separator';
 import { genders, states, citizenOp, identities, visaTypes } from './options';
@@ -42,6 +42,7 @@ const Onboarding: react.FC = () => {
   });
 
   const navigate = useNavigate();
+  const feedback = useRef('');
   const [fetchOnboarding, { loading: fetchLoading }] = useLazyQuery(FETCH, {
     onCompleted: data => {
       let avatar = '';
@@ -88,6 +89,7 @@ const Onboarding: react.FC = () => {
       };
       // @ts-ignore
       setValues(newValues);
+      feedback.current = data.employee.feedback;
     },
     onError: handleApolloError(),
   });
@@ -111,9 +113,6 @@ const Onboarding: react.FC = () => {
       onboardingStatus === 'pending'
     ) {
       fetchOnboarding({ variables: { token } });
-      if (onboardingStatus === 'rejected') {
-        // TODO: fetch feedback
-      }
     }
   }, [onboardingStatus, navigate, fetchOnboarding, token]);
 
@@ -136,6 +135,11 @@ const Onboarding: react.FC = () => {
 
   return (
     <div className="flex flex-grow">
+      {onboardingStatus === 'rejected' && (
+        <p className="text-red-500 text-2xl font-semibold m-auto">
+          feedback.current
+        </p>
+      )}
       <form className="flex-grow" onSubmit={handleSubmit}>
         <fieldset
           className="flex flex-col w-4/5 mx-auto bg-white rounded-lg mb-2"

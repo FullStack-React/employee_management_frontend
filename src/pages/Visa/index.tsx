@@ -5,10 +5,11 @@ import { QUERY_VISA } from './gql';
 import { handleApolloError } from '@/utils/error';
 import { useEffect, useState } from 'react';
 import { FileInput } from './input';
+import { useAppSelector } from '@/app/hooks';
+import { selectToken } from '@/features/auth/AuthSlice';
 
 const Visa = () => {
-  const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MTczYTUzZWQ1ODY2NmQ4NWMzNWZiNSIsImlhdCI6MTcxMjc5ODQ5MiwiZXhwIjoxNzEzNjYyNDkyfQ.wIkbcRMSveWPI2ksNmMwjum_cLPfoxviU939yH-aPUE';
+  const token = useAppSelector(selectToken);
   const [uri, setUri] = useState<string>('');
   const [data, setData] = useState(null);
   const [query, { loading }] = useLazyQuery(QUERY_VISA, {
