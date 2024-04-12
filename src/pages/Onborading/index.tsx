@@ -25,62 +25,69 @@ const Onboarding: react.FC = () => {
   const token = useAppSelector(selectToken);
   const onboardingStatus = useAppSelector(selectOnboardingStatus);
 
-  const { values, handleChange, setFieldValue, touched, errors, handleSubmit } =
-    useFormik({
-      initialValues: initialValues,
-      validationSchema,
-      onSubmit: (values: typeof initialValues) => {
-        onboarding({ variables: { data: valuesToVariables(values), token } });
-      },
-    });
+  const {
+    values,
+    handleChange,
+    setFieldValue,
+    setValues,
+    touched,
+    errors,
+    handleSubmit,
+  } = useFormik({
+    initialValues: initialValues,
+    validationSchema,
+    onSubmit: (values: typeof initialValues) => {
+      onboarding({ variables: { data: valuesToVariables(values), token } });
+    },
+  });
 
   const navigate = useNavigate();
   const [fetchOnboarding, { loading: fetchLoading }] = useLazyQuery(FETCH, {
     onCompleted: data => {
+      let avatar = '';
+      let receipt = '';
       data.employee.documents.forEach((document: any) => {
         if (document.type === 'avatar') {
-          setFieldValue('avatar', document.file);
+          avatar = document.file;
         }
         if (document.type === 'receipt') {
-          setFieldValue('receipt', document.file);
+          receipt = document.file;
         }
       });
-      setFieldValue('firstName', data.employee.firstName);
-      setFieldValue('lastName', data.employee.lastName);
-      setFieldValue('middleName', data.employee.middleName);
-      setFieldValue('preferredName', data.employee.preferredName);
-      setFieldValue('street', data.employee.streetAddress);
-      setFieldValue('apt', data.employee.apartment);
-      setFieldValue('city', data.employee.city);
-      setFieldValue('state', data.employee.state);
-      setFieldValue('zip', data.employee.zip);
-      setFieldValue('email', data.employee.email);
-      setFieldValue('phone', data.employee.cellPhone);
-      setFieldValue('ssn', data.employee.ssn);
-      setFieldValue('dateOfBirth', new Date(data.employee.dateOfBirth));
-      setFieldValue('gender', data.employee.gender);
-      setFieldValue(
-        'citizen',
-        data.employee.citizenship === 'visa' ? 'no' : 'yes',
-      );
-      setFieldValue('identity', data.employee.citizenship);
-      setFieldValue('visa', data.employee.visa);
-      setFieldValue('startDate', new Date(data.employee.visaStartDate));
-      setFieldValue('endDate', new Date(data.employee.visaEndDate));
-      setFieldValue('visaType', data.employee.visaType);
-      if (data.employee.referralFirstName) {
-        setFieldValue('reference', true);
-        setFieldValue('referenceFirstName', data.employee.referralFirstName);
-        setFieldValue('referenceMiddleName', data.employee.referralMiddleName);
-        setFieldValue('referenceLastName', data.employee.referralLastName);
-        setFieldValue('referenceEmail', data.employee.referralEmail);
-        setFieldValue('referencePhone', data.employee.referralPhone);
-        setFieldValue(
-          'referenceRelationship',
-          data.employee.referralRelationship,
-        );
-      }
-      setFieldValue('emergencyContact', data.employee.emergencyContacts);
+      const newValues = {
+        avatar,
+        receipt,
+        firstName: data.employee.firstName,
+        lastName: data.employee.lastName,
+        middleName: data.employee.middleName,
+        preferredName: data.employee.preferredName,
+        street: data.employee.streetAddress,
+        apt: data.employee.apartment,
+        city: data.employee.city,
+        state: data.employee.state,
+        zip: data.employee.zip,
+        email: data.employee.email,
+        phone: data.employee.cellPhone,
+        ssn: data.employee.ssn,
+        dateOfBirth: new Date(data.employee.dateOfBirth),
+        gender: data.employee.gender,
+        citizen: data.employee.citizenship === 'visa' ? 'no' : 'yes',
+        identity: data.employee.citizenship,
+        visa: data.employee.visa,
+        startDate: new Date(data.employee.visaStartDate),
+        endDate: new Date(data.employee.visaEndDate),
+        visaType: data.employee.visaType,
+        emergencyContact: data.employee.emergencyContacts,
+        reference: data.employee.referralFirstName ? true : false,
+        referenceFirstName: data.employee.referralFirstName,
+        referenceMiddleName: data.employee.referralMiddleName,
+        referenceLastName: data.employee.referralLastName,
+        referenceEmail: data.employee.referralEmail,
+        referencePhone: data.employee.referralPhone,
+        referenceRelationship: data.employee.referralRelationship,
+      };
+      // @ts-ignore
+      setValues(newValues);
     },
     onError: handleApolloError(),
   });
@@ -108,7 +115,7 @@ const Onboarding: react.FC = () => {
         // TODO: fetch feedback
       }
     }
-  }, [onboardingStatus, navigate, fetchOnboarding]);
+  }, [onboardingStatus, navigate, fetchOnboarding, token]);
 
   const [stateOpen, setStateOpen] = useState(false);
   const [genderOpen, setGenderOpen] = useState(false);
