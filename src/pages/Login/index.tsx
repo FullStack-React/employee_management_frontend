@@ -107,12 +107,6 @@ const Login = () => {
           onSubmit={formik.handleSubmit}
         />
         <div className="mt-2 flex flex-col md:flex-row justify-between">
-          <p>
-            Don't have an account?
-            <a className="text-blue-600 underline" href="/register">
-              Register here
-            </a>
-          </p>
           <a className="mt-1 md:m-0 text-blue-600 underline" href="/">
             Forgot Password?
           </a>

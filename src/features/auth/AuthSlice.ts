@@ -52,6 +52,10 @@ export const authSlice = createAppSlice({
       state.onboardingStatus = 'unsubmitted';
       state.loginStatus = false;
     }),
+    queryOnboardingStatus: create.reducer((state, action) => {
+      // @ts-ignore
+      state.onboardingStatus = action.payload;
+    }),
   }),
   selectors: {
     selectUser: user => user,
@@ -62,7 +66,7 @@ export const authSlice = createAppSlice({
   },
 });
 
-export const { auth, logout } = authSlice.actions;
+export const { auth, logout, queryOnboardingStatus } = authSlice.actions;
 export const {
   selectUser,
   selectRole,

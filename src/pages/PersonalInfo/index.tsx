@@ -9,7 +9,7 @@ import { selectToken, selectRole } from '@/features/auth/AuthSlice';
 import { useLazyQuery } from '@apollo/client';
 import { FETCH } from './gql';
 import { handleApolloError } from '@/utils/error';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 const PersonalInfo = () => {
@@ -17,8 +17,21 @@ const PersonalInfo = () => {
   const role = useAppSelector(selectRole);
   let { id } = useParams();
 
+  const download_urls = useRef([]);
+
   const [get, { loading, data }] = useLazyQuery(FETCH, {
-    onCompleted: data => {},
+    onCompleted: data => {
+      const files = data.employee.documents.map(async (doc: any) => {
+        const response = await fetch(doc.file);
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        return url;
+      });
+      Promise.all(files).then(urls => {
+        // @ts-ignore
+        download_urls.current = urls;
+      });
+    },
     onError: handleApolloError(),
   });
 
@@ -126,29 +139,31 @@ const PersonalInfo = () => {
                 Upload Documents
               </header>
               <ul className="flex flex-col w-full">
-                {data.employee.documents.map((document: any, index: number) => (
-                  <li
-                    key={index}
-                    className="flex flex-col md:flex-row my-2 justify-between md:items-center"
-                  >
-                    <p className="font-semibold">{document.file}</p>
-                    <a
-                      className="text-blue-600 underline"
-                      href={document.file}
-                      target="_blank"
-                      rel="noreferrer"
+                {data.employee.documents.map((document: any, index: number) => {
+                  return (
+                    <li
+                      key={index}
+                      className="flex flex-col md:flex-row my-2 justify-between md:items-center"
                     >
-                      preview
-                    </a>
-                    <a
-                      className="text-blue-600 underline"
-                      href={document.file}
-                      download={document.file}
-                    >
-                      download
-                    </a>
-                  </li>
-                ))}
+                      <p className="font-semibold">{document.file}</p>
+                      <a
+                        className="text-blue-600 underline"
+                        href={document.file}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        preview
+                      </a>
+                      <a
+                        className="text-blue-600 underline"
+                        href={download_urls.current[index]}
+                        download={document.file}
+                      >
+                        download
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </>
           )}

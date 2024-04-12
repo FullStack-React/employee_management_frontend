@@ -13,8 +13,8 @@ const Visa = () => {
   const [uri, setUri] = useState<string>('');
   const [data, setData] = useState(null);
   const [query, { loading }] = useLazyQuery(QUERY_VISA, {
-    onCompleted: data => {
-      setData(data);
+    onCompleted: res => {
+      setData(res);
     },
     onError: handleApolloError(),
   });
@@ -120,7 +120,7 @@ const Visa = () => {
       </>
     );
   } else if (
-    data.vsia.optReceipt.status === 'approved' &&
+    data.visa.optReceipt.status === 'approved' &&
     data.visa.optEad.status === 'approved' &&
     data.visa.i983.status === 'unsubmitted'
   ) {

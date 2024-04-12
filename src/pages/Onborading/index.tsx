@@ -8,11 +8,12 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { DatePicker } from '@/components/ui/datepicker';
 import { Separator } from '@/components/ui/separator';
 import { genders, states, citizenOp, identities, visaTypes } from './options';
-import { useAppSelector } from '@/app/hooks';
+import { useAppSelector, useAppDispatch } from '@/app/hooks';
 import {
   selectOnboardingStatus,
   selectToken,
   selectRole,
+  queryOnboardingStatus,
 } from '@/features/auth/AuthSlice';
 import { useFormik } from 'formik';
 import { initialValues } from './values';
@@ -37,6 +38,8 @@ const Onboarding: react.FC = () => {
   let { status } = useParams();
   const employeeStatus = status;
 
+  const dispatch = useAppDispatch();
+
   const {
     values,
     handleChange,
@@ -59,6 +62,7 @@ const Onboarding: react.FC = () => {
     onCompleted: data => {
       let avatar = '';
       let receipt = '';
+      console.log(data);
       data.employee.documents.forEach((document: any) => {
         if (document.type === 'avatar') {
           avatar = document.file;
@@ -86,10 +90,14 @@ const Onboarding: react.FC = () => {
         gender: data.employee.gender,
         citizen: data.employee.citizenship === 'visa' ? 'no' : 'yes',
         identity: data.employee.citizenship,
-        visa: data.employee.visa,
+        visa: ['h1b', 'l2', 'f1', 'h4'].includes(data.employee.visaType)
+          ? data.employee.visaType
+          : 'other',
         startDate: new Date(data.employee.visaStartDate),
         endDate: new Date(data.employee.visaEndDate),
-        visaType: data.employee.visaType,
+        visaType: ['h1b', 'l2', 'f1', 'h4'].includes(data.employee.visaType)
+          ? ''
+          : data.employee.visaType,
         emergencyContact: data.employee.emergencyContacts,
         reference: data.employee.referralFirstName ? true : false,
         referenceFirstName: data.employee.referralFirstName,
@@ -99,6 +107,7 @@ const Onboarding: react.FC = () => {
         referencePhone: data.employee.referralPhone,
         referenceRelationship: data.employee.referralRelationship,
       };
+      console.log(newValues);
       // @ts-ignore
       setValues(newValues);
       feedback.current = data.employee.feedback;
@@ -107,7 +116,7 @@ const Onboarding: react.FC = () => {
   });
   const [onboarding, { loading: submitLoading }] = useMutation(ONBOARDING, {
     onCompleted: data => {
-      console.log(data);
+      dispatch(queryOnboardingStatus(data.onboarding.status));
     },
     onError: handleApolloError(),
   });
@@ -908,7 +917,7 @@ const Onboarding: react.FC = () => {
                       </a>
                       <a
                         className="text-blue-600 underline"
-                        href={values.avatar}
+                        href={URL.createObjectURL(avatarImage)}
                         download={avatarImage.name}
                       >
                         download
@@ -929,7 +938,7 @@ const Onboarding: react.FC = () => {
                       </a>
                       <a
                         className="text-blue-600 underline"
-                        href={values.receipt}
+                        href={URL.createObjectURL(receiptFile)}
                         download={receiptFile.name}
                       >
                         download
